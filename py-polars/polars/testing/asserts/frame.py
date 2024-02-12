@@ -124,10 +124,9 @@ def assert_frame_equal(
         except AssertionError as exc:
             raise_assertion_error(
                 objects,
-                f"value mismatch for column {c!r}",
+                f"{exc.detail} for column {c!r}",  # type: ignore[attr-defined]
                 s_left.to_list(),
                 s_right.to_list(),
-                cause=exc,
             )
 
 

@@ -424,9 +424,18 @@ def test_frame_schema_fail():
     # an import is missing or something like that):
 
     assert (
-        "AssertionError: DataFrames are different (value mismatch for column 'a')"
+        "AssertionError: DataFrames are different (exact value mismatch for column 'a')"
         in stdout
     )
     assert "AssertionError: frames are equal" in stdout
     assert "AssertionError: inputs are different (unexpected input types)" in stdout
     assert "AssertionError: DataFrames are different (dtypes do not match)" in stdout
+
+    # Check that all the information about the test failure is contained in a
+    # single exception (not split between two with `raise ... from ...`).  This
+    # isn't strictly testing the `__tracebackhide__ = True` setting, but it's
+    # convenient to test here nonetheless:
+
+    assert "During handling of the above exception, another exception occurred:" not in stdout
+    assert "Series are different" not in stdout
+
